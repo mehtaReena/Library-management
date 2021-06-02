@@ -41,7 +41,7 @@ async function showOption() {
             await categoryController.printAllCategories();
             break;
         case "2":
-            response = readlineSync.question('Enter your category name: you wnt to add');
+            response = readlineSync.question('Enter your category name: you want to add');
             await categoryController.addCategories(response)
             break;
         case "3":
@@ -52,21 +52,21 @@ async function showOption() {
             await bookController.printAllBooks();
             break;
         case "5":
-            let title = readlineSync.question('Enter your book title name: you want to add');
-            let author = readlineSync.question('Enter your book author name: you want to add');
-            let bookCategory = readlineSync.question('Enter your bookCategory : you want to add');
-            let price = readlineSync.question('Enter your book price(USD) : you want to add');
+            let title = readlineSync.question('Enter your book title name: you want to add     ');
+            let author = readlineSync.question('Enter your book author name: you want to add    ');
+            let bookCategory = readlineSync.question('Enter your bookCategory : you want to add   ');
+            let price = readlineSync.question('Enter your book price(USD) : you want to add     ');
             await bookController.addBook(title, price, bookCategory, author);
             break;
 
         case "6":
-             response = readlineSync.question('Enter your book title name: you want to remove');
+             response = readlineSync.question('Enter your book title name: you want to remove   ');
             await bookController.removeBook(response);
             break;
 
 
         case "7":
-            response = readlineSync.question('Enter your book title name: you want to search');
+            response = readlineSync.question('Enter your book title name: you want to search    ');
             await bookController.getBook(response);
             break;
 
