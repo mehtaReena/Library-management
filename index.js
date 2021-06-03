@@ -47,7 +47,7 @@ async function showOption() {
             await categoryController.addCategories(response)
             break;
         case "3":
-            response = readlineSync.question('Enter your category name , you want to delete: ');
+            response = readlineSync.question('Enter your category name , you want to remove: ');
             await categoryController.removeCategories(response)
             break;
         case "4":
