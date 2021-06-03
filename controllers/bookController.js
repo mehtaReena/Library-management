@@ -54,10 +54,25 @@ const removeBook =async(name)=>{
 
 }
     const getBook= async(title)=>{
-        console.log(" getBook " , title);
-        var re = new RegExp(title, "g");
-        let list = await Book.find({ "title" : {$regex:title}})
-        console.log(list);
+
+        try{
+            let books = await Book.find({ "title" : {$regex:title}})
+            if (books.length===0){
+                 console.log("Book not found!");        }
+            else{
+                books.forEach((book)=>{
+                    console.log("Book name :"+ book.title + " Author :" + book.author  +" Price(USD) :"+ book.price);
+                })
+
+            }
+        }
+        catch(e){
+            console.log('Error Occured' , e)
+        }
+
+
+
+
     }
 
 

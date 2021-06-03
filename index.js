@@ -7,7 +7,9 @@ const bookController = require('./controllers/bookController')
 
 
 function displayOption() {
+    console.log("-------------------------------------------------------");
     console.log("WelCome");
+    console.log("-------------------------------------------------------");
     console.log("1 : List of category     ");
     console.log("2 : Add category     ");
     console.log("3 : Delete category    ");
