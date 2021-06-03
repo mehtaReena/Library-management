@@ -14,10 +14,10 @@ function displayOption() {
     console.log("2 : Add category     ");
     console.log("3 : Delete category    ");
     console.log("4 : List of books    ");
-    console.log("5 :Add book       ");
-    console.log("6 :Delete book      ");
-    console.log("7 :Search  book    ");
-    console.log("0 :Exit     ");
+    console.log("5 : Add book       ");
+    console.log("6 : Delete book      ");
+    console.log("7 : Search  book    ");
+    console.log("0 : Exit     ");
 
 }
 mongoose.connect('mongodb://127.0.0.1:27017/LibraryDB', {
@@ -35,7 +35,7 @@ async function showOption() {
     let db = mongoose.connection;
     while(true){
     displayOption();
-    let userChoice = readlineSync.question("Operation to perform      ")
+    let userChoice = readlineSync.question("Operation to perform    ")
     console.log(userChoice)
     let response = ''
     switch (userChoice) {
@@ -43,7 +43,7 @@ async function showOption() {
             await categoryController.printAllCategories();
             break;
         case "2":
-            response = readlineSync.question('Enter your category name: you want to add');
+            response = readlineSync.question('Enter your category name: you want to add     ');
             await categoryController.addCategories(response)
             break;
         case "3":
