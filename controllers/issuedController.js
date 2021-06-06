@@ -15,7 +15,7 @@ const showAllActiveIssues = async () => {
         }
         else {
             issues.forEach((issue) => {
-                console.log("bookID:  " + issue.bookID + " MemberID :   " + issue.MemberID + "issuedDate :   " + issue.issuedDate);
+                console.log("bookID:  " + issue.bookID + "   MemberID : " + issue.MemberID + "  issuedDate :   " + issue.issuedDate);
             })
         }
 
@@ -90,7 +90,7 @@ const  GetIssueHistory = async (bookName) => {
         }
         else {
             issues.forEach((issue) => {
-                console.log("bookID:  " + issue.bookID + " MemberID :  " + issue.MemberID + "issuedDate :   " + issue.issuedDate);
+                console.log("bookID:  " + issue.bookID + "  MemberID :  " + issue.MemberID + "  issuedDate :   " + issue.issuedDate);
             })
         }
 
