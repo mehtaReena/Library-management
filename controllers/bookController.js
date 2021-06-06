@@ -3,87 +3,105 @@ const Book = require('../models/book');
 const Category = require('../models/category')
 
 
-const printAllBooks =async()=>{
-    try{
-        let books= await Book.find();
+const printAllBooks = async () => {
+    try {
+        let books = await Book.find();
         console.log("-----");
-        if(books.length===0){
+        if (books.length === 0) {
             console.log('No category found')
         }
-        else{
-            books.forEach((book)=>{
-                console.log("Book name :"+ book.title + " Author :" + book.author  +" Price(USD) :"+ book.price);
+        else {
+            books.forEach((book) => {
+                console.log("Book name :" + book.title + " Author :" + book.author + " Price(USD) :" + book.price);
             })
         }
 
     }
-    catch(e){
-        console.log('Error Occured' , e)
+    catch (e) {
+        console.log('Error Occured', e)
     }
 
 }
 
-const addBook =async(title,price,bookCategory,author)=>{
-    try{
-        console.log(title , author ,price , bookCategory)
-        const category= await Category.findOne({ name: bookCategory });
-         const book = new Book({title:title,price:price,category:category.id,author:author});
+const addBook = async (title, price, bookCategory, author) => {
+    try {
+        console.log(title, author, price, bookCategory)
+        const category = await Category.findOne({ name: bookCategory });
+        const book = new Book({ title: title, price: price, category: category.id, author: author });
         await book.save();
         console.log('Category saved successfuly')
     }
-    catch(e){
-        console.log('Error Occured' , e)
+    catch (e) {
+        console.log('Error Occured', e)
     }
 
 }
 
 
-const removeBook =async(name)=>{
-    try{
-        const book = await Book.findOne({name:name});
-        if (book==null){
-             console.log("Book not found");        }
-        else{
+const removeBook = async (name) => {
+    try {
+        const book = await Book.findOne({ name: name });
+        if (book == null) {
+            console.log("Book not found");
+        }
+        else {
             await book.remove();
             console.log("Removed Successfuly");
         }
     }
-    catch(e){
-        console.log('Error Occured' , e)
+    catch (e) {
+        console.log('Error Occured', e)
     }
 
 }
-    const getBook= async(title)=>{
+const getBook = async (title) => {
 
-        try{
-            let books = await Book.find({ "title" : {$regex:title}})
-            if (books.length===0){
-                 console.log("Book not found!");        }
-            else{
-                books.forEach((book)=>{
-                    console.log("Book name :"+ book.title + " Author :" + book.author  +" Price(USD) :"+ book.price);
-                })
-
-            }
+    try {
+        let books = await Book.find({ "title": { $regex: title } })
+        if (books.length === 0) {
+            console.log("Book not found!");
         }
-        catch(e){
-            console.log('Error Occured' , e)
+        else {
+            books.forEach((book) => {
+                console.log("Book name :" + book.title + " Author :" + book.author + " Price(USD) :" + book.price);
+            })
         }
-
-
-
-
+    }
+    catch (e) {
+        console.log('Error Occured', e)
     }
 
+}
+
+const getBookByCategory = async (bookCategory) => {
+
+    try {
+        const category = await Category.findOne({ name: bookCategory });
+        if (category == null) {
+            console.log("Category not found!");
+        }
+        else {
+            const book = await Book.findOne({ category: category });
+            console.log("Book name :" + book.title + " Author :" + book.author + " Price(USD) :" + book.price);
+        }
+    }
+    catch (e) {
+        console.log('Error Occured', e)
+    }
+
+}
 
 
 
 
-module.exports={
+
+
+module.exports = {
     printAllBooks,
     addBook,
     removeBook,
     getBook,
+    getBookByCategory,
 
 
 }

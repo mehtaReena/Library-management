@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+
 const Category = require('../models/category')
 
 
@@ -61,6 +61,4 @@ module.exports = {
     printAllCategories,
     addCategories,
     removeCategories
-
-
 }
