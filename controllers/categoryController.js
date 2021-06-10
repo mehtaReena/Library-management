@@ -16,6 +16,7 @@ const printAllCategories = async () => {
                 console.log(category.name);
             })
         }
+        return categories;
     }
     catch (e) {
         console.log('Error Occured', e)

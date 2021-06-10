@@ -1,6 +1,7 @@
 
 const Book = require('../models/book');
 const Category = require('../models/category')
+const ObjectId = require('mongodb').ObjectID;
 
 
 const printAllBooks = async () => {
@@ -11,10 +12,13 @@ const printAllBooks = async () => {
             console.log('No category found')
         }
         else {
+
             books.forEach((book) => {
                 console.log("Book name :" + book.title + " Author :" + book.author + " Price(USD) :" + book.price);
+
             })
         }
+        return books;
 
     }
     catch (e) {
@@ -54,6 +58,32 @@ const removeBook = async (name) => {
     }
 
 }
+
+const removeBookByID = async (id) => {
+
+    try {
+        console.log(id)
+         id = ObjectId(id);
+        const book = await Book.findOne({ _id: id });
+        if (book == null) {
+            console.log("Book not found");
+            return "Book not found"
+        }
+        else {
+            await book.remove();
+            console.log("Removed Successfuly");
+            return "Removed Successfuly"
+        }
+    }
+    catch (e) {
+        console.log('Error Occured', e.message)
+        return  e.message
+    }
+
+}
+
+
+
 const getBook = async (title) => {
 
     try {
@@ -102,6 +132,7 @@ module.exports = {
     removeBook,
     getBook,
     getBookByCategory,
+    removeBookByID,
 
 
 }
