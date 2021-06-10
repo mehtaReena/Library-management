@@ -9,7 +9,7 @@ router
     console.log(bookList)
      res.render('index',{message:'Welcome to Library!' ,list:bookList})
    // res.send('List of books')
-   //res.json(bookList);
+    // res.json(bookList);
 
 })
 .post((req,res)=>{
