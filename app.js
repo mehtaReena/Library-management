@@ -1,3 +1,6 @@
+
+require ('dotenv').config();
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -6,7 +9,7 @@ const bookController = require('./controllers/bookController');
 
 const cors = require('cors')
 
-mongoose.connect('mongodb://127.0.0.1:27017/LibraryDB', {
+mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -37,7 +40,34 @@ app.get('/',async(req,res)=>{
      res.send('Welcome.to Library!')
 });
 
-app.use("/books",bookRouter)
+
+let validateRequest=(req,res,next)=>{
+    let authHeader = req.headers["authorization"];
+      console.log(authHeader )
+    if (!authHeader){
+        res.status(403).send(" Token not provided");
+        return;
+    }
+    let token = authHeader.split(" ")[1];
+    if(!token){
+        res.status(403).send("Token not provided");
+        return;
+    }
+    try{
+         console.log( "token......." , token)
+
+        let data= jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
+        console.log("From Token..... " , data);
+        next();
+    }catch(err){
+         console.log( err.message)
+        res.status(403).send("Invalid Token  provided");
+
+    }
+
+}
+
+app.use("/books",validateRequest,bookRouter)
 
 app.get ('/form',async (req, res) => {
     let categories =await categoryController.printAllCategories();
@@ -69,10 +99,6 @@ app.get('/book/:bookID',(req,res)=>{
 
 
 
-function printlogs(req){
-    console.log(req)
-    return "requested url :" +req
-}
 
 
 
