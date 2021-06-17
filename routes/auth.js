@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const { addNewUser, getUsers, loginUser } = require('../controllers/usersController');
-const multer = require('multer')
+const multer = require('multer');
+const refreshTokens = []
 
 
 const storage = multer.diskStorage({
@@ -35,23 +36,36 @@ router.post('/signup', multipart.single('profilePic'), async (req, res) => {
 })
 
 
-router.post('/login', async (req, res) => {
-    //    console.log(req.body)
+router.post('/login', async(req, res) => {
+    console.log(req.body)
     let loginResult = await loginUser(req.body)
-    console.log(loginResult)
-
     if (loginResult.status) {
         let payload = {
             email: loginResult.result.email,
-            iat: Date.now()
         }
-        console.log(payload)
-        let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-        console.log("token generated ..", token)
-        res.status(200).json({ "access_token": token });
-
+        let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME })
+        let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME })
+        refreshTokens.push(refreshToken)
+        res.status(200).json({ 'access_token': token, 'refresh_token': refreshToken })
     } else {
         res.status(400).json(loginResult.result)
+    }
+})
+
+router.post('/token', (req, res) => {
+    console.log(" inside refreshToken!")
+    let { token } = req.body
+    if (!token || !refreshTokens.includes(token)) {
+        res.status(403).send('Invalid Token')
+    } else {
+        try {
+            let decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET)
+            let payload = { email: decoded.email }
+            let newToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME })
+            res.status(200).json({ 'access_token': newToken })
+        } catch (error) {
+            res.status(403).send(error.message)
+        }
     }
 })
 

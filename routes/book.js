@@ -6,7 +6,7 @@ router
 .route("/")
 .get(async (req, res)=>{
     let bookList = await bookController.printAllBooks()
-    console.log(bookList)
+    //console.log(bookList)
     //  res.render('index',{message:'Welcome to Library!' ,list:bookList})
    // res.send('List of books')
      res.json(bookList);
@@ -20,7 +20,7 @@ router
 let bookHandler1=(req, res , next)=>{
 
     let id = req.params.BookID;
-    console.log(id)
+   // console.log(id)
     if (Number(id)!==NaN && Number(id)>0){
         next();
     }

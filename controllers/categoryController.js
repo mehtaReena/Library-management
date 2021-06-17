@@ -1,5 +1,6 @@
 
 const Category = require('../models/category')
+const ObjectId = require('mongodb').ObjectID;
 
 
 
@@ -55,11 +56,37 @@ const removeCategories = async (name) => {
 
 }
 
+const removeCategoryByID = async (id) => {
+    console.log(" ObjectId  removed "+  id)
+    try {
+
+         id = ObjectId(id);
+
+         console.log(" ObjectId  removed "+  id)
+        const category = await Category.findOne({_id: id });
+        if (category == null) {
+            // console.log("Category not found");
+            return "Category not found"
+        }
+        else {
+            await category.remove();
+            // console.log("Removed Successfuly");
+            return "Removed Successfuly"
+        }
+    }
+    catch (e) {
+        console.log('Error Occured', e.message)
+        return  e.message
+    }
+
+}
+
 
 
 
 module.exports = {
     printAllCategories,
     addCategories,
-    removeCategories
+    removeCategories,
+    removeCategoryByID
 }

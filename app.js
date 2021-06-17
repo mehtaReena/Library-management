@@ -4,10 +4,14 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+
 const categoryController = require('./controllers/categoryController');
 const bookController = require('./controllers/bookController');
 
 const cors = require('cors')
+const bookRouter = require("./routes/book");
+const authRouter = require("./routes/auth");
+const categoryRouter = require("./routes/category");
 
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
@@ -27,11 +31,11 @@ app.use(cors());
 app.set('view engine','pug');
 app.use (express.json());
 app.use(express.urlencoded({extended:true}))
-const authRouter = require("./routes/auth");
+
 app.use('/auth',authRouter)
+app.use('/categories',categoryRouter);
 
 
-const bookRouter = require("./routes/book");
 
 
 app.get('/',async(req,res)=>{

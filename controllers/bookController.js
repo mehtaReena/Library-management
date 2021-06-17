@@ -76,7 +76,7 @@ const removeBookByID = async (id) => {
         }
     }
     catch (e) {
-        console.log('Error Occured', e.message)
+        console.log('Error Occured in controller', e.message)
         return  e.message
     }
 
